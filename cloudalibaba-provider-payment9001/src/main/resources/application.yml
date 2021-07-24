@@ -1,0 +1,27 @@
+server:
+  port: 9001
+spring:
+  application:
+    name: nacos-payment-provider
+  cloud:
+    nacos:
+      discovery:
+        server-addr: ${nacos_host:127.0.0.1}:${nacos_port:8848}
+        #nacos的命名空间ID，默认是public
+        namespace: ${nacos_namespace:e2fff6f7-9215-4059-9985-681f5f951bb6}
+        group: DEFAULT_GROUP
+      config:
+        server-addr: ${spring.cloud.nacos.discovery.server-addr}
+        namespace: ${spring.cloud.nacos.discovery.namespace}
+        group: DEFAULT_GROUP
+        file-extension: yaml
+        #指定共享配置，且支持动态刷新
+        extension-configs:
+          - data-id: nacos-config-client-dev.yml
+            group: ${spring.cloud.nacos.config.group}
+            refresh: true
+management:
+  endpoints:
+    web:
+      exposure:
+        include: '*'
